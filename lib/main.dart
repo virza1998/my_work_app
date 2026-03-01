@@ -9,13 +9,10 @@ class WorkApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      // Светлая тема
       theme: ThemeData(primarySwatch: Colors.blue), 
-      // Настройка ТЕМНОЙ темы
       darkTheme: ThemeData.dark().copyWith(
         primaryColor: Colors.amber, 
       ),
-      // Принудительное включение темной темы
       themeMode: ThemeMode.dark, 
       home: const SelectionScreen(),
     );
@@ -52,7 +49,8 @@ class _SelectionScreenState extends State<SelectionScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Помощник инженера')),
+      // ТВОЕ НОВОЕ НАЗВАНИЕ ЗДЕСЬ
+      appBar: AppBar(title: const Text('Перечень операций')),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -100,7 +98,6 @@ class _SelectionScreenState extends State<SelectionScreen> {
 
             const SizedBox(height: 40),
 
-            // ФИНАЛЬНЫЙ ТЕКСТ (Исправлен для темной темы)
             if (selectedItem != null)
               Container(
                 width: double.infinity,
