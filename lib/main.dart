@@ -26,9 +26,9 @@ class SelectionScreen extends StatefulWidget {
 }
 
 class _SelectionScreenState extends State<SelectionScreen> {
-  String? selectedType;
-  String? selectedCategory;
-  String? selectedItem;
+  String? selectedType;     // Ввод / Вывод
+  String? selectedCategory; // ВВ оборудование / РЗА
+  String? selectedItem;     // Конкретный аппарат
 
   final List<String> types = ['Ввод', 'Вывод'];
   final List<String> categories = ['ВВ оборудование', 'РЗА'];
@@ -46,67 +46,65 @@ class _SelectionScreenState extends State<SelectionScreen> {
         height: double.infinity,
         decoration: const BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('psk1.jpg'),
+            image: AssetImage('psk1.JPG'), // Проверь, что тут JPG или jpg как на диске!
             fit: BoxFit.cover,
           ),
         ),
         child: Container(
-          color: Colors.black.withOpacity(0.65),
+          color: Colors.black.withOpacity(0.7),
           child: SingleChildScrollView(
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(20.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Выбор категории
+                const Text("Тип операции:", style: TextStyle(color: Colors.amber, fontWeight: FontWeight.bold)),
                 DropdownButton<String>(
-                  hint: const Text("Выберите категорию"),
+                  value: selectedType,
+                  isExpanded: true,
+                  hint: const Text("Выберите тип"),
+                  items: types.map((e) => DropdownMenuItem(value: e, child: Text(e))).toList(),
+                  onChanged: (val) => setState(() { selectedType = val; }),
+                ),
+                
+                const SizedBox(height: 20),
+                const Text("Категория:", style: TextStyle(color: Colors.amber, fontWeight: FontWeight.bold)),
+                DropdownButton<String>(
                   value: selectedCategory,
                   isExpanded: true,
-                  items: categories.map((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
-                  onChanged: (val) {
-                    setState(() {
-                      selectedCategory = val;
-                      selectedItem = null; // Сброс при смене категории
-                    });
-                  },
+                  hint: const Text("Выберите категорию"),
+                  items: categories.map((e) => DropdownMenuItem(value: e, child: Text(e))).toList(),
+                  onChanged: (val) => setState(() { selectedCategory = val; selectedItem = null; }),
                 ),
+
                 const SizedBox(height: 20),
-                
-                // Выбор элемента (появляется только если выбрана категория)
-                if (selectedCategory != null)
+                if (selectedCategory != null) ...[
+                  const Text("Объект:", style: TextStyle(color: Colors.amber, fontWeight: FontWeight.bold)),
                   DropdownButton<String>(
-                    hint: const Text("Выберите элемент"),
                     value: selectedItem,
                     isExpanded: true,
-                    items: itemsMap[selectedCategory!]!.map((e) {
-                      return DropdownMenuItem(value: e, child: Text(e));
-                    }).toList(),
-                    onChanged: (val) => setState(() {
-                      selectedItem = val;
-                    }),
+                    hint: const Text("Выберите элемент"),
+                    items: itemsMap[selectedCategory!]!.map((e) => DropdownMenuItem(value: e, child: Text(e))).toList(),
+                    onChanged: (val) => setState(() { selectedItem = val; }),
                   ),
-                
+                ],
+
                 const SizedBox(height: 40),
-                
-                // Финальный блок с результатом
-                if (selectedItem != null)
+                if (selectedItem != null && selectedType != null)
                   Container(
                     width: double.infinity,
                     padding: const EdgeInsets.all(20),
                     decoration: BoxDecoration(
-                      color: Colors.green.withOpacity(0.2),
+                      color: Colors.green.withOpacity(0.15),
                       borderRadius: BorderRadius.circular(12),
-                      border: Border.all(color: Colors.greenAccent, width: 2),
+                      border: Border.all(color: Colors.greenAccent, width: 1.5),
                     ),
                     child: Column(
                       children: [
-                        Text("Выбрано: $selectedItem", 
-                             style: const TextStyle(fontSize: 18, color: Colors.white)),
+                        Text("ИТОГ:", style: TextStyle(color: Colors.greenAccent.shade100, fontWeight: FontWeight.bold)),
+                        const SizedBox(height: 10),
+                        Text("$selectedType — $selectedItem", 
+                             textAlign: TextAlign.center,
+                             style: const TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.w500)),
                       ],
                     ),
                   ),
