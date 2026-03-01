@@ -9,11 +9,11 @@ class WorkApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(primarySwatch: Colors.blue), 
+      theme: ThemeData(primarySwatch: Colors.blue),
       darkTheme: ThemeData.dark().copyWith(
-        primaryColor: Colors.amber, 
+        primaryColor: Colors.amber,
       ),
-      themeMode: ThemeMode.dark, 
+      themeMode: ThemeMode.dark,
       home: const SelectionScreen(),
     );
   }
@@ -49,89 +49,70 @@ class _SelectionScreenState extends State<SelectionScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // ТВОЕ НОВОЕ НАЗВАНИЕ ЗДЕСЬ
       appBar: AppBar(title: const Text('Перечень операций')),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text("1. Тип работ:", style: TextStyle(fontWeight: FontWeight.bold)),
-            DropdownButton<String>(
-              isExpanded: true,
-              value: selectedType,
-              items: types.map((e) => DropdownMenuItem(value: e, child: Text(e))).toList(),
-              onChanged: (val) => setState(() {
-                selectedType = val;
-              }),
+      body: Container(
+        width: double.infinity,
+        height: double.infinity,
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            // Используем загруженное фото
+            image: AssetImage('ps k-1.jpg'),
+            fit: BoxFit.cover,
+          ),
+        ),
+        // Затемняющий фильтр поверх фото (65%), чтобы текст был виден
+        child: Container(
+          color: Colors.black.withOpacity(0.65),
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children:, // Темный фон меню
+                  value: selectedType,
+                  items: types.map((e) => DropdownMenuItem(value: e, child: Text(e))).toList(),
+                  onChanged: (val) => setState(() {
+                    selectedType = val;
+                  }),
+                ),
+                const SizedBox(height: 20),
+                if (selectedType != null) ...,
+                    value: selectedCategory,
+                    items: categories.map((e) => DropdownMenuItem(value: e, child: Text(e))).toList(),
+                    onChanged: (val) => setState(() {
+                      selectedCategory = val;
+                      selectedItem = null;
+                    }),
+                  ),
+                ],
+                const SizedBox(height: 20),
+                if (selectedCategory != null) ...,
+                    value: selectedItem,
+                    items: itemsMap[selectedCategory]!
+                        .map((e) => DropdownMenuItem(value: e, child: Text(e)))
+                        .toList(),
+                    onChanged: (val) => setState(() {
+                      selectedItem = val;
+                    }),
+                  ),
+                ],
+                const SizedBox(height: 40),
+                if (selectedItem != null)
+                  Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.all(20),
+                    decoration: BoxDecoration(
+                      // Полупрозрачный зеленый фон для результата
+                      color: Colors.green.withOpacity(0.25),
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(color: Colors.greenAccent, width: 2),
+                    ),
+                    child: Column(
+                      children:,
+                    ),
+                  ),
+              ],
             ),
-            const SizedBox(height: 20),
-
-            if (selectedType != null) ...[
-              const Text("2. Категория оборудования:", style: TextStyle(fontWeight: FontWeight.bold)),
-              DropdownButton<String>(
-                isExpanded: true,
-                value: selectedCategory,
-                items: categories.map((e) => DropdownMenuItem(value: e, child: Text(e))).toList(),
-                onChanged: (val) => setState(() {
-                  selectedCategory = val;
-                  selectedItem = null;
-                }),
-              ),
-            ],
-
-            const SizedBox(height: 20),
-
-            if (selectedCategory != null) ...[
-              const Text("3. Выберите наименование:", style: TextStyle(fontWeight: FontWeight.bold)),
-              DropdownButton<String>(
-                isExpanded: true,
-                value: selectedItem,
-                items: itemsMap[selectedCategory]!
-                    .map((e) => DropdownMenuItem(value: e, child: Text(e)))
-                    .toList(),
-                onChanged: (val) => setState(() {
-                  selectedItem = val;
-                }),
-              ),
-            ],
-
-            const SizedBox(height: 40),
-
-            if (selectedItem != null)
-              Container(
-                width: double.infinity,
-                padding: const EdgeInsets.all(20),
-                decoration: BoxDecoration(
-                  color: Colors.green.withOpacity(0.2), 
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: Colors.greenAccent, width: 2),
-                ),
-                child: Column(
-                  children: [
-                    Text(
-                      selectedItem!,
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(
-                        fontSize: 22, 
-                        fontWeight: FontWeight.bold, 
-                        color: Colors.greenAccent,
-                      ),
-                    ),
-                    const SizedBox(height: 12),
-                    Text(
-                      "Вы видите порядок ${selectedType?.toLowerCase()}а.\nСпасибо!",
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(
-                        fontSize: 18, 
-                        color: Colors.white,
-                        height: 1.4,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-          ],
+          ),
         ),
       ),
     );
