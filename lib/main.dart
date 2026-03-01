@@ -9,17 +9,16 @@ class WorkApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      // Светлая тема (оставляем как была)
+      // Светлая тема
       theme: ThemeData(primarySwatch: Colors.blue), 
       // Настройка ТЕМНОЙ темы
       darkTheme: ThemeData.dark().copyWith(
-        primaryColor: Colors.amber, // Золотистый акцент под монету
+        primaryColor: Colors.amber, 
       ),
       // Принудительное включение темной темы
       themeMode: ThemeMode.dark, 
       home: const SelectionScreen(),
     );
-
   }
 }
 
@@ -101,28 +100,36 @@ class _SelectionScreenState extends State<SelectionScreen> {
 
             const SizedBox(height: 40),
 
-            // ФИНАЛЬНЫЙ ТЕКСТ
+            // ФИНАЛЬНЫЙ ТЕКСТ (Исправлен для темной темы)
             if (selectedItem != null)
               Container(
                 width: double.infinity,
                 padding: const EdgeInsets.all(20),
                 decoration: BoxDecoration(
-                  color: Colors.green.shade50,
+                  color: Colors.green.withOpacity(0.2), 
                   borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: Colors.green.shade300, width: 2),
+                  border: Border.all(color: Colors.greenAccent, width: 2),
                 ),
                 child: Column(
                   children: [
                     Text(
                       selectedItem!,
                       textAlign: TextAlign.center,
-                      style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.green),
+                      style: const TextStyle(
+                        fontSize: 22, 
+                        fontWeight: FontWeight.bold, 
+                        color: Colors.greenAccent,
+                      ),
                     ),
-                    const SizedBox(height: 10),
+                    const SizedBox(height: 12),
                     Text(
                       "Вы видите порядок ${selectedType?.toLowerCase()}а.\nСпасибо!",
                       textAlign: TextAlign.center,
-                      style: const TextStyle(fontSize: 18),
+                      style: const TextStyle(
+                        fontSize: 18, 
+                        color: Colors.white,
+                        height: 1.4,
+                      ),
                     ),
                   ],
                 ),
@@ -133,4 +140,3 @@ class _SelectionScreenState extends State<SelectionScreen> {
     );
   }
 }
-
