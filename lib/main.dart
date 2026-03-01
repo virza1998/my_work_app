@@ -9,9 +9,17 @@ class WorkApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(primarySwatch: Colors.blue),
+      // Светлая тема (оставляем как была)
+      theme: ThemeData(primarySwatch: Colors.blue), 
+      // Настройка ТЕМНОЙ темы
+      darkTheme: ThemeData.dark().copyWith(
+        primaryColor: Colors.amber, // Золотистый акцент под монету
+      ),
+      // Принудительное включение темной темы
+      themeMode: ThemeMode.dark, 
       home: const SelectionScreen(),
     );
+
   }
 }
 
