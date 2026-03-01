@@ -56,7 +56,7 @@ class _SelectionScreenState extends State<SelectionScreen> {
         decoration: const BoxDecoration(
           image: DecorationImage(
             // Используем загруженное фото
-            image: AssetImage('ps_k-1.jpg'),
+            image: AssetImage('psk1.jpg'),
             fit: BoxFit.cover,
           ),
         ),
