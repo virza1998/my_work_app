@@ -10,7 +10,9 @@ class WorkApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(primarySwatch: Colors.blue),
-      darkTheme: ThemeData.dark().copyWith(primaryColor: Colors.amber),
+      darkTheme: ThemeData.dark().copyWith(
+        colorScheme: const ColorScheme.dark(primary: Colors.amber),
+      ),
       themeMode: ThemeMode.dark,
       home: const SelectionScreen(),
     );
@@ -54,13 +56,44 @@ class _SelectionScreenState extends State<SelectionScreen> {
             padding: const EdgeInsets.all(16.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children:,
+              children: [
+                // Выбор категории
+                DropdownButton<String>(
+                  hint: const Text("Выберите категорию"),
+                  value: selectedCategory,
+                  isExpanded: true,
+                  items: categories.map((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                  onChanged: (val) {
+                    setState(() {
+                      selectedCategory = val;
+                      selectedItem = null; // Сброс при смене категории
+                    });
+                  },
+                ),
                 const SizedBox(height: 20),
-                if (selectedCategory != null) ...!.map((e) => DropdownMenuItem(value: e, child: Text(e))).toList(),
-                    onChanged: (val) => setState(() { selectedItem = val; }),
+                
+                // Выбор элемента (появляется только если выбрана категория)
+                if (selectedCategory != null)
+                  DropdownButton<String>(
+                    hint: const Text("Выберите элемент"),
+                    value: selectedItem,
+                    isExpanded: true,
+                    items: itemsMap[selectedCategory!]!.map((e) {
+                      return DropdownMenuItem(value: e, child: Text(e));
+                    }).toList(),
+                    onChanged: (val) => setState(() {
+                      selectedItem = val;
+                    }),
                   ),
-                ],
+                
                 const SizedBox(height: 40),
+                
+                // Финальный блок с результатом
                 if (selectedItem != null)
                   Container(
                     width: double.infinity,
@@ -71,7 +104,10 @@ class _SelectionScreenState extends State<SelectionScreen> {
                       border: Border.all(color: Colors.greenAccent, width: 2),
                     ),
                     child: Column(
-                      children:,
+                      children: [
+                        Text("Выбрано: $selectedItem", 
+                             style: const TextStyle(fontSize: 18, color: Colors.white)),
+                      ],
                     ),
                   ),
               ],
