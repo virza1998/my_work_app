@@ -44,7 +44,7 @@ class _SelectionScreenState extends State<SelectionScreen> {
         height: double.infinity,
         decoration: const BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('bg.jpg'),
+            image: AssetImage('psk1.jpg'),
             fit: BoxFit.cover,
           ),
         ),
