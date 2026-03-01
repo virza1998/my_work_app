@@ -10,9 +10,7 @@ class WorkApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(primarySwatch: Colors.blue),
-      darkTheme: ThemeData.dark().copyWith(
-        primaryColor: Colors.amber,
-      ),
+      darkTheme: ThemeData.dark().copyWith(primaryColor: Colors.amber),
       themeMode: ThemeMode.dark,
       home: const SelectionScreen(),
     );
@@ -21,7 +19,6 @@ class WorkApp extends StatelessWidget {
 
 class SelectionScreen extends StatefulWidget {
   const SelectionScreen({super.key});
-
   @override
   State<SelectionScreen> createState() => _SelectionScreenState();
 }
@@ -33,17 +30,9 @@ class _SelectionScreenState extends State<SelectionScreen> {
 
   final List<String> types = ['Ввод', 'Вывод'];
   final List<String> categories = ['ВВ оборудование', 'РЗА'];
-
   final Map<String, List<String>> itemsMap = {
     'ВВ оборудование': ['В-220 Х', 'В-220 К', 'СВ-220', 'ВЛ-220 Х', 'ВЛ-220 К'],
-    'РЗА': [
-      'НВЧЗ ВЛ-220 Х',
-      'КСЗ ВЛ-220 Х',
-      'ДФЗ ВЛ-220 К',
-      'КСЗ ВЛ-220 К',
-      'АПВ В-220 Х',
-      'АПВ В-220 К'
-    ],
+    'РЗА': ['НВЧЗ ВЛ-220 Х', 'КСЗ ВЛ-220 Х', 'ДФЗ ВЛ-220 К', 'КСЗ ВЛ-220 К', 'АПВ В-220 Х', 'АПВ В-220 К'],
   };
 
   @override
@@ -55,44 +44,20 @@ class _SelectionScreenState extends State<SelectionScreen> {
         height: double.infinity,
         decoration: const BoxDecoration(
           image: DecorationImage(
-            // Используем загруженное фото
-            image: AssetImage('psk1.jpg'),
+            image: AssetImage('bg.jpg'),
             fit: BoxFit.cover,
           ),
         ),
-        // Затемняющий фильтр поверх фото (65%), чтобы текст был виден
         child: Container(
           color: Colors.black.withOpacity(0.65),
           child: SingleChildScrollView(
             padding: const EdgeInsets.all(16.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children:, // Темный фон меню
-                  value: selectedType,
-                  items: types.map((e) => DropdownMenuItem(value: e, child: Text(e))).toList(),
-                  onChanged: (val) => setState(() {
-                    selectedType = val;
-                  }),
-                ),
+              children:,
                 const SizedBox(height: 20),
-                if (selectedType != null) ...,
-                    value: selectedCategory,
-                    items: categories.map((e) => DropdownMenuItem(value: e, child: Text(e))).toList(),
-                    onChanged: (val) => setState(() {
-                      selectedCategory = val;
-                      selectedItem = null;
-                    }),
-                  ),
-                ],
-                const SizedBox(height: 20),
-                if (selectedCategory != null) ...,
-                    value: selectedItem,
-                    items: itemsMap[selectedCategory]!
-                        .map((e) => DropdownMenuItem(value: e, child: Text(e)))
-                        .toList(),
-                    onChanged: (val) => setState(() {
-                      selectedItem = val;
-                    }),
+                if (selectedCategory != null) ...!.map((e) => DropdownMenuItem(value: e, child: Text(e))).toList(),
+                    onChanged: (val) => setState(() { selectedItem = val; }),
                   ),
                 ],
                 const SizedBox(height: 40),
@@ -101,8 +66,7 @@ class _SelectionScreenState extends State<SelectionScreen> {
                     width: double.infinity,
                     padding: const EdgeInsets.all(20),
                     decoration: BoxDecoration(
-                      // Полупрозрачный зеленый фон для результата
-                      color: Colors.green.withOpacity(0.25),
+                      color: Colors.green.withOpacity(0.2),
                       borderRadius: BorderRadius.circular(12),
                       border: Border.all(color: Colors.greenAccent, width: 2),
                     ),
